@@ -16,8 +16,15 @@ firebase.auth().onAuthStateChanged(async function(user) {
     console.log('signed in')
     document.querySelector('.football').insertAdjacentHTML('beforeend', `
     <h1 class = "uppercase m-4 text-center text-5xl font-bold text-blue-700">Welcome To Fantasy Team Builder!</h1>
-    <img src="https://wallpapercave.com/wp/wp6491651.jpg" alt=""></img>`
-    )
+    <img src="https://wallpapercave.com/wp/wp6491651.jpg" alt=""></img>
+    
+    <div class="w-1/3 p-4">
+    <a href="#" class="QB-button block text-center text-white bg-green-500 mt-4 px-4 py-2 rounded">QB</a>
+    <a href="#" class="RB-button block text-center text-white bg-green-500 mt-4 px-4 py-2 rounded">RB</a>
+    <a href="#" class="WR-button block text-center text-white bg-green-500 mt-4 px-4 py-2 rounded">WR</a>
+    </div>
+    `)
+
     document.querySelector(".sign-in-or-sign-out").innerHTML = `
     <button class="text-pink-500 underline sign-out">Sign Out</button>
     `
