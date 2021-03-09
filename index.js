@@ -25,36 +25,44 @@ firebase.auth().onAuthStateChanged(async function(user) {
 
     <div class="flex">
       <div class="block text-left text-green-500 text-3xl w-1/5 m-4 px-4 py-2 rounded">Metric: </div>
-      <a href="#" class="FP-button block text-center text-white bg-green-500 w-1/5 m-4 px-4 py-4 rounded">Fantasy Points</a>
-      <a href="#" class="PR-button block text-center text-white bg-green-500 w-1/5 m-4 px-4 py-4 rounded">Passing Touchdowns</a>
-      <a href="#" class="RuT-button block text-center text-white bg-green-500 w-1/5 m-4 px-4 py-4 rounded">Rushing Touchdowns</a>
-      <a href="#" class="ReT-button block text-center text-white bg-green-500 w-1/5 m-4 px-4 py-4 rounded">Receiving Touchdowns</a>
-      <a href="#" class="PY-button block text-center text-white bg-green-500 w-1/5 m-4 px-4 py-4 rounded">Passing Yards</a>
-      <a href="#" class="RuY-button block text-center text-white bg-green-500 w-1/5 m-4 px-4 py-4 rounded">Rushing Yards</a>
-      <a href="#" class="ReY-button block text-center text-white bg-green-500 w-1/5 m-4 px-4 py-4 rounded">Receiving Yards</a>
+      <a href="#" class="FantasyPoints-button block text-center text-white bg-green-500 w-1/5 m-4 px-4 py-4 rounded">Fantasy Points</a>
+      <a href="#" class="PassingTouchdowns-button block text-center text-white bg-green-500 w-1/5 m-4 px-4 py-4 rounded">Passing Touchdowns</a>
+      <a href="#" class="RushingTouchdowns-button block text-center text-white bg-green-500 w-1/5 m-4 px-4 py-4 rounded">Rushing Touchdowns</a>
+      <a href="#" class="ReceivingTouchdowns-button block text-center text-white bg-green-500 w-1/5 m-4 px-4 py-4 rounded">Receiving Touchdowns</a>
+      <a href="#" class="PassingYards-button block text-center text-white bg-green-500 w-1/5 m-4 px-4 py-4 rounded">Passing Yards</a>
+      <a href="#" class="RushingYards-button block text-center text-white bg-green-500 w-1/5 m-4 px-4 py-4 rounded">Rushing Yards</a>
+      <a href="#" class="ReceivingYards-button block text-center text-white bg-green-500 w-1/5 m-4 px-4 py-4 rounded">Receiving Yards</a>
     </div>
     
       <a href="#" class="search-button block text-center text-white bg-green-500 ml-64 mr-64 px-4 py-4 rounded">Go!</a>
 
     `)
 
-    document.querySelector(`.QB-button`).addEventListener('click', async function(event) {
+    let positions = ["QB", "RB", "WR", "TE"]
+    for (let i=0; i<positions.length; i++) { 
+
+    document.querySelector(`.${positions[i]}-button`).addEventListener('click', async function(event) {
       event.preventDefault()
-      console.log('You clicked QB button')
+      console.log('You clicked position button')
       let currentUser = firebase.auth().currentUser
         await db.collection('footballUsers').doc(user.uid).update({
-          Position: "QB"     
+          Position: positions[i]     
         })
       }) 
-      document.querySelector(`.FP-button`).addEventListener('click', async function(event) {
+    }
+
+    let metrics = ["FantasyPoints", "PassingTouchdowns", "RushingTouchdowns", "ReceivingTouchdowns", "PassingYards", "RushingYards", "ReceivingYards"]
+    for (let i=0; i<metrics.length; i++) { 
+
+      document.querySelector(`.${metrics[i]}-button`).addEventListener('click', async function(event) {
         event.preventDefault()
         console.log('You clicked Fantasy Points button')
         let currentUser = firebase.auth().currentUser
           await db.collection('footballUsers').doc(user.uid).update({
-            Metric: "FantasyPoints"     
+            Metric: metrics[i]     
           })
         }) 
-
+      }
         document.querySelector(`.search-button`).addEventListener('click', async function(event) {
           event.preventDefault()
           console.log('You clicked the search button')
