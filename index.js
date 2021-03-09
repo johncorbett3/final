@@ -1,3 +1,4 @@
+let db = firebase.firestore()
 window.addEventListener('DOMContentLoaded', async function(event) {
   let apiKey = '773ed246f01245a8bd863d1051367936'
   // let db = firebase.firestore()
@@ -9,18 +10,23 @@ window.addEventListener('DOMContentLoaded', async function(event) {
 })
 firebase.auth().onAuthStateChanged(async function(user) {
  
-  document.querySelector(".sign-in-or-sign-out").innerHTML = `
-  <button class="text-pink-500 underline sign-out">Sign Out</button>
-  `
-  document.querySelector(".sign-out").addEventListener("click", function(event) {
-    console.log("sign out clicked")
-    firebase.auth().signOut()
-    document.location.href = "index.html"
-  })
 
   if (user) {
     // Signed in
     console.log('signed in')
+    document.querySelector(".sign-in-or-sign-out").innerHTML = `
+    <button class="text-pink-500 underline sign-out">Sign Out</button>
+    `
+    document.querySelector(".sign-out").addEventListener("click", function(event) {
+      console.log("sign out clicked")
+      firebase.auth().signOut()
+      document.location.href = "index.html"
+    })
+    db.collection('footballUsers').doc(user.uid).set({
+      Id: user.uid,
+      name: user.displayName,
+      email: user.email      
+    })
   } else {
     // Signed out
     console.log('signed out')
