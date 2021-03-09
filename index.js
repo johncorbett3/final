@@ -44,6 +44,7 @@ firebase.auth().onAuthStateChanged(async function(user) {
     document.querySelector(`.${positions[i]}-button`).addEventListener('click', async function(event) {
       event.preventDefault()
       console.log('You clicked position button')
+      document.querySelector(`.${positions[i]}-button`).classList.add('opacity-20')
       let currentUser = firebase.auth().currentUser
         await db.collection('footballUsers').doc(user.uid).update({
           Position: positions[i]     
@@ -56,6 +57,7 @@ firebase.auth().onAuthStateChanged(async function(user) {
 
       document.querySelector(`.${metrics[i]}-button`).addEventListener('click', async function(event) {
         event.preventDefault()
+        document.querySelector(`.${metrics[i]}-button`).classList.add('opacity-20')
         console.log('You clicked Fantasy Points button')
         let currentUser = firebase.auth().currentUser
           await db.collection('footballUsers').doc(user.uid).update({
