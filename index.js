@@ -1,18 +1,15 @@
 let db = firebase.firestore()
 window.addEventListener('DOMContentLoaded', async function(event) {
-  let apiKey = '773ed246f01245a8bd863d1051367936'
-  // let db = firebase.firestore()
-  // let position = 'QB'
-  // let metric = 'FantasyPoints'
-  // let sportsDB = await fetch(`https://api.sportsdata.io/v3/nfl/stats/json/SeasonLeagueLeaders/2019REG/${position}/${metric}?key=${apiKey}`)
-  // let sportsJson = await sportsDB.json()
-  // console.log(sportsJson[0].Name)
+  
+
+  
 })
 firebase.auth().onAuthStateChanged(async function(user) {
  
 
   if (user) {
     // Signed in
+    let apiKey = '773ed246f01245a8bd863d1051367936'
     console.log('signed in')
     document.querySelector('.football').insertAdjacentHTML('beforeend', `
     <h1 class = "uppercase m-4 text-center text-5xl font-bold text-blue-700">Welcome To Fantasy Team Builder!</h1>
@@ -45,8 +42,7 @@ firebase.auth().onAuthStateChanged(async function(user) {
       event.preventDefault()
       console.log('You clicked QB button')
       let currentUser = firebase.auth().currentUser
-      // let movieElement = document.querySelector(`.movie-${movie.id}`)
-        await db.collection('footballUsers').doc(user.uid).add({
+        await db.collection('footballUsers').doc(user.uid).update({
           Position: "QB"     
         })
       }) 
@@ -54,11 +50,26 @@ firebase.auth().onAuthStateChanged(async function(user) {
         event.preventDefault()
         console.log('You clicked Fantasy Points button')
         let currentUser = firebase.auth().currentUser
-        // let movieElement = document.querySelector(`.movie-${movie.id}`)
-          await db.collection('footballUsers').doc(user.uid).add({
+          await db.collection('footballUsers').doc(user.uid).update({
             Metric: "FantasyPoints"     
           })
         }) 
+
+        document.querySelector(`.search-button`).addEventListener('click', async function(event) {
+          event.preventDefault()
+          console.log('You clicked the search button')
+          let currentUser = firebase.auth().currentUser
+          let querySnapshot = await db.collection('footballUsers').get() 
+          let searchDoc = querySnapshot.docs
+          let searchData = searchDoc[0].data()
+          let metric = searchData.Metric
+          console.log(metric)
+          let position = searchData.Position
+          console.log(position)
+          let sportsDB = await fetch(`https://api.sportsdata.io/v3/nfl/stats/json/SeasonLeagueLeaders/2019REG/${position}/${metric}?key=${apiKey}`)
+          let sportsJson = await sportsDB.json()
+          console.log(sportsJson[0].Name)
+          }) 
 
     document.querySelector(".sign-in-or-sign-out").innerHTML = `
     <button class="text-pink-500 underline sign-out">Sign Out</button>
