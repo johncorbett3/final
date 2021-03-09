@@ -14,6 +14,10 @@ firebase.auth().onAuthStateChanged(async function(user) {
   if (user) {
     // Signed in
     console.log('signed in')
+    document.querySelector('.football').insertAdjacentHTML('beforeend', `
+    <h1 class = "uppercase m-4 text-center text-5xl font-bold text-blue-700">Welcome To Fantasy Team Builder!</h1>
+    <img src="https://wallpapercave.com/wp/wp6491651.jpg" alt=""></img>`
+    )
     document.querySelector(".sign-in-or-sign-out").innerHTML = `
     <button class="text-pink-500 underline sign-out">Sign Out</button>
     `
@@ -30,6 +34,8 @@ firebase.auth().onAuthStateChanged(async function(user) {
   } else {
     // Signed out
     console.log('signed out')
+    document.querySelector('.football').classList.add('Nothing')
+    
 
     // Initializes FirebaseUI Auth
     let ui = new firebaseui.auth.AuthUI(firebase.auth())
