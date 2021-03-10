@@ -34,7 +34,7 @@ firebase.auth().onAuthStateChanged(async function(user) {
       <a href="#" class="ReceivingYards-button block text-center text-white bg-green-500 w-1/5 m-4 px-4 py-4 rounded">Receiving Yards</a>
     </div>
     
-      <a href="#" class="search-button block text-center text-white bg-green-500 ml-64 mr-64 px-4 py-4 rounded">Go!</a>
+      <a href="#" class="search-button block text-center text-white bg-green-500 ml-64 mr-64 px-4 py-4 rounded">Go! (this may take a minute...)</a>
 
     `)
 
@@ -79,12 +79,25 @@ firebase.auth().onAuthStateChanged(async function(user) {
           let sportsDB = await fetch(`https://api.sportsdata.io/v3/nfl/stats/json/SeasonLeagueLeaders/2019REG/${position}/${metric}?key=${apiKey}`)
           let sportsJson = await sportsDB.json()
           console.log(sportsJson[0].Name)
-          let result = sportsJson[0].Name
+          let resultName = sportsJson[0].Name
+          let resultPosition = sportsJson[0].Position
+          let resultTeam = sportsJson[0].Team
+          let resultFP = sportsJson[0].FantasyPoints
           document.querySelector('.football').insertAdjacentHTML('beforeend', `
-          <h1 class = "uppercase m-4 text-center text-5xl font-bold text-blue-700">${result}</h1>
+          <h1 class = "uppercase m-4 text-center text-5xl font-bold text-blue-700">Name: ${resultName}</h1>
+          <h1 class = "uppercase m-4 text-center text-2xl font-bold text-blue-700">Position: ${resultPosition}</h1>
+          <h1 class = "uppercase m-4 text-center text-2xl font-bold text-blue-700">Team: ${resultTeam}</h1>
+          <h1 class = "uppercase m-4 text-center text-2xl font-bold text-blue-700">2019 Fantasy Points: ${resultFP}</h1>
+          <a href="#" class="reset-button block text-center text-white bg-green-500 ml-64 mr-64 px-4 py-4 rounded">Try Another Search</a>
           `
           )
+          document.querySelector(`.reset-button`).addEventListener('click', async function(event) {
+            event.preventDefault()
+            location.reload();
+
+          })
           }) 
+          
 
     document.querySelector(".sign-in-or-sign-out").innerHTML = `
     <button class="text-pink-500 underline sign-out">Sign Out</button>
