@@ -127,20 +127,29 @@ firebase.auth().onAuthStateChanged(async function(user) {
           <a href="#" class="reset-button block text-center text-white bg-green-500 mt-16 ml-64 mr-64 px-4 py-4 rounded">Try Another Search</a>
           `
           )
-         
+         let numberOfClicks = 0
           document.querySelector(`.team-button`).addEventListener('click', async function(event) {
             event.preventDefault()
+            numberOfClicks = numberOfClicks + 1
             let currentUser = firebase.auth().currentUser
             // let querySnapshot2 = await db.collection('footballUsers').get() 
             // let userDoc = querySnapshot2.docs
             // let userData = userDoc[0].data()
-            // for (let i=0; i<userData.length; i++) {     
+            // console.log(userDoc)
+            // console.log(userDoc[0])
+            // console.log(userData)
+            // console.log(userData[0])
+            // console.log(userData[1])
+            // console.log(userData.length)
+            console.log(numberOfClicks)
+            for (let i=0; i<numberOfClicks; i++) {     
               await db.collection('footballUsers').doc(user.uid).update({
-                PlayerName: resultName,
-                PlayerPosition: resultPosition,
-                PlayerTeam: resultTeam,
-                PlayerFP: resultFP   
+                ["PlayerName" + i]: resultName,
+                ["PlayerPosition" + i]: resultPosition,
+                ["PlayerTeam" + i]: resultTeam,
+                ["PlayerFP" + i]: resultFP   
             })
+          }
           })
           document.querySelector(`.reset-button`).addEventListener('click', async function(event) {
             event.preventDefault()
@@ -157,7 +166,7 @@ firebase.auth().onAuthStateChanged(async function(user) {
       firebase.auth().signOut()
       document.location.href = "index.html"
     })
-    db.collection('footballUsers').doc(user.uid).set({
+    db.collection('footballUsers').doc(user.uid).update({
       Id: user.uid,
       name: user.displayName,
       email: user.email      
