@@ -11,8 +11,45 @@ firebase.auth().onAuthStateChanged(async function(user) {
     // Signed in
     let apiKey = '773ed246f01245a8bd863d1051367936'
     console.log('signed in')
+
+    // ********JJC added code starts********
+    let playerPositions = ["RB1", "RB2", "RB3", "RB4"]
+    let playerNames = ["Derrick Henry", "Derrick Henry2", "Derrick Henry3", "Derrick Henry4"]
+    let playerTeams = ["TEN", "TEN2", "TEN3", "TEN4"]
+    let playerFantasyPoints = ["100", "200", "300", "400"]
+
+    console.log(playerNames.length)
+
+    for (let i=0; i<playerNames.length; i++) {
+
+      currentPlayerPosition = playerPositions[i]
+      currentPlayerName = playerNames[i]
+      currentPlayerTeam = playerTeams[i]
+      currentPlayerFantasyPoints = playerFantasyPoints[i]
+      
+      console.log(currentPlayerPosition)
+      console.log(currentPlayerName)
+      console.log(currentPlayerTeam)
+      console.log(currentPlayerFantasyPoints)
+    }
+
     document.querySelector('.football').insertAdjacentHTML('beforeend', `
     <h1 class = "uppercase m-4 text-center text-5xl font-bold text-blue-700">Welcome To Fantasy Team Builder!</h1>
+    
+    <div class="grid grid-cols-4 grid-rows-6 gap-4 border-2 text-center text-green m-4 p-4">
+      <div class="font-bold">Position</div>
+      <div class="font-bold">Name</div>
+      <div class="font-bold">Team</div>
+      <div class="font-bold">Fantasy Points</div>
+
+      <div>${currentPlayerPosition}</div>
+      <div>${currentPlayerName}</div>
+      <div>${currentPlayerTeam}</div>
+      <div>${currentPlayerFantasyPoints}</div>
+    </div>
+    // ********JJC added code ends********
+
+
     <img src="https://wallpapercave.com/wp/wp6491651.jpg" alt=""></img>
     
     <div class="flex">
