@@ -79,6 +79,11 @@ firebase.auth().onAuthStateChanged(async function(user) {
           let sportsDB = await fetch(`https://api.sportsdata.io/v3/nfl/stats/json/SeasonLeagueLeaders/2019REG/${position}/${metric}?key=${apiKey}`)
           let sportsJson = await sportsDB.json()
           console.log(sportsJson[0].Name)
+          let result = sportsJson[0].Name
+          document.querySelector('.football').insertAdjacentHTML('beforeend', `
+          <h1 class = "uppercase m-4 text-center text-5xl font-bold text-blue-700">${result}</h1>
+          `
+          )
           }) 
 
     document.querySelector(".sign-in-or-sign-out").innerHTML = `
