@@ -80,7 +80,6 @@ firebase.auth().onAuthStateChanged(async function(user) {
 
     document.querySelector(`.${positions[i]}-button`).addEventListener('click', async function(event) {
       event.preventDefault()
-      console.log('You clicked position button')
       document.querySelector(`.${positions[i]}-button`).classList.add('opacity-20')
       let currentUser = firebase.auth().currentUser
         await db.collection('footballUsers').doc(user.uid).update({
@@ -95,7 +94,6 @@ firebase.auth().onAuthStateChanged(async function(user) {
       document.querySelector(`.${metrics[i]}-button`).addEventListener('click', async function(event) {
         event.preventDefault()
         document.querySelector(`.${metrics[i]}-button`).classList.add('opacity-20')
-        console.log('You clicked Fantasy Points button')
         let currentUser = firebase.auth().currentUser
           await db.collection('footballUsers').doc(user.uid).update({
             Metric: metrics[i]     
@@ -125,13 +123,28 @@ firebase.auth().onAuthStateChanged(async function(user) {
           <h1 class = "uppercase m-4 text-center text-2xl font-bold text-blue-700">Position: ${resultPosition}</h1>
           <h1 class = "uppercase m-4 text-center text-2xl font-bold text-blue-700">Team: ${resultTeam}</h1>
           <h1 class = "uppercase m-4 text-center text-2xl font-bold text-blue-700">2019 Fantasy Points: ${resultFP}</h1>
-          <a href="#" class="reset-button block text-center text-white bg-green-500 ml-64 mr-64 px-4 py-4 rounded">Try Another Search</a>
+          <a href="#" class="team-button block text-center text-white bg-green-500 ml-64 mr-64 px-4 py-4 rounded">Add to Team</a>
+          <a href="#" class="reset-button block text-center text-white bg-green-500 mt-16 ml-64 mr-64 px-4 py-4 rounded">Try Another Search</a>
           `
           )
+         
+          document.querySelector(`.team-button`).addEventListener('click', async function(event) {
+            event.preventDefault()
+            let currentUser = firebase.auth().currentUser
+            // let querySnapshot2 = await db.collection('footballUsers').get() 
+            // let userDoc = querySnapshot2.docs
+            // let userData = userDoc[0].data()
+            // for (let i=0; i<userData.length; i++) {     
+              await db.collection('footballUsers').doc(user.uid).update({
+                PlayerName: resultName,
+                PlayerPosition: resultPosition,
+                PlayerTeam: resultTeam,
+                PlayerFP: resultFP   
+            })
+          })
           document.querySelector(`.reset-button`).addEventListener('click', async function(event) {
             event.preventDefault()
             location.reload();
-
           })
           }) 
           
