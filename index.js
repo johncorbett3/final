@@ -11,46 +11,28 @@ firebase.auth().onAuthStateChanged(async function(user) {
     let apiKey = '773ed246f01245a8bd863d1051367936'
     console.log('signed in')
 
-    // ********JJC added code starts********
-    let playerPositions = ["RB1", "RB2", "RB3", "RB4"]
-    let playerNames = ["Derrick Henry", "Derrick Henry2", "Derrick Henry3", "Derrick Henry4"]
-    let playerTeams = ["TEN", "TEN2", "TEN3", "TEN4"]
-    let playerFantasyPoints = ["100", "200", "300", "400"]
-
-    console.log(playerNames.length)
-
-    for (let i=0; i<playerNames.length; i++) {
-
-      currentPlayerPosition = playerPositions[i]
-      currentPlayerName = playerNames[i]
-      currentPlayerTeam = playerTeams[i]
-      currentPlayerFantasyPoints = playerFantasyPoints[i]
-      
-      console.log(currentPlayerPosition)
-      console.log(currentPlayerName)
-      console.log(currentPlayerTeam)
-      console.log(currentPlayerFantasyPoints)
-    }
-
     document.querySelector('.football').insertAdjacentHTML('beforeend', `
     <h1 class = "uppercase m-4 text-center text-5xl font-bold text-blue-700">Welcome To Fantasy Team Builder!</h1>
-    
+
+    <img src="https://wallpapercave.com/wp/wp6491651.jpg" alt=""></img>
+
+    `)
+
+    document.querySelector('.resultsTable').insertAdjacentHTML('beforeend', `
     <div class="grid grid-cols-4 grid-rows-6 gap-4 border-2 text-center text-green m-4 p-4">
       <div class="font-bold">Position</div>
       <div class="font-bold">Name</div>
       <div class="font-bold">Team</div>
       <div class="font-bold">Fantasy Points</div>
 
-      <div>${currentPlayerPosition}</div>
-      <div>${currentPlayerName}</div>
-      <div>${currentPlayerTeam}</div>
-      <div>${currentPlayerFantasyPoints}</div>
+      <div>Position</div>
+      <div>Name</div>
+      <div>Team</div>
+      <div>Fantasy Points</div>
     </div>
-    // ********JJC added code ends********
+    `)
 
-
-    <img src="https://wallpapercave.com/wp/wp6491651.jpg" alt=""></img>
-    
+    document.querySelector('.buttons').insertAdjacentHTML('beforeend', `
     <div class="flex">
       <div class="block text-left text-green-500 text-3xl w-1/5 m-4 px-4 py-2 rounded">Position: </div>
       <a href="#" class="QB-button block text-center text-white bg-green-500 w-1/5 m-4 px-4 py-4 rounded">QB</a>
@@ -71,7 +53,6 @@ firebase.auth().onAuthStateChanged(async function(user) {
     </div>
     
       <a href="#" class="search-button block text-center text-white bg-green-500 ml-64 mr-64 px-4 py-4 rounded">Go! (this may take a minute...)</a>
-
     `)
 
     let positions = ["QB", "RB", "WR", "TE"]
@@ -117,7 +98,7 @@ firebase.auth().onAuthStateChanged(async function(user) {
           let resultPosition = sportsJson[0].Position
           let resultTeam = sportsJson[0].Team
           let resultFP = sportsJson[0].FantasyPoints
-          document.querySelector('.football').insertAdjacentHTML('beforeend', `
+          document.querySelector('.buttons').insertAdjacentHTML('beforeend', `
           <h1 class = "uppercase m-4 text-center text-5xl font-bold text-blue-700">Name: ${resultName}</h1>
           <h1 class = "uppercase m-4 text-center text-2xl font-bold text-blue-700">Position: ${resultPosition}</h1>
           <h1 class = "uppercase m-4 text-center text-2xl font-bold text-blue-700">Team: ${resultTeam}</h1>
@@ -159,7 +140,10 @@ firebase.auth().onAuthStateChanged(async function(user) {
                 NumberClicks: numberOfClicks
             })
             }  
-                
+             console.log(resultName)   
+             console.log(resultPosition)   
+             console.log(resultTeam)   
+             console.log(resultFP)   
           })
           document.querySelector(`.reset-button`).addEventListener('click', async function(event) {
             event.preventDefault()
