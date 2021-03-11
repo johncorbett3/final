@@ -1,8 +1,10 @@
 let db = firebase.firestore()
+
 window.addEventListener('DOMContentLoaded', async function(event) {
   
 
   })
+
 firebase.auth().onAuthStateChanged(async function(user) {
  
 
@@ -144,6 +146,7 @@ firebase.auth().onAuthStateChanged(async function(user) {
              console.log(resultPosition)   
              console.log(resultTeam)   
              console.log(resultFP)   
+
           })
           document.querySelector(`.reset-button`).addEventListener('click', async function(event) {
             event.preventDefault()
