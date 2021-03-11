@@ -2,8 +2,7 @@ let db = firebase.firestore()
 window.addEventListener('DOMContentLoaded', async function(event) {
   
 
-  
-})
+  })
 firebase.auth().onAuthStateChanged(async function(user) {
  
 
@@ -104,9 +103,9 @@ firebase.auth().onAuthStateChanged(async function(user) {
           event.preventDefault()
           console.log('You clicked the search button')
           let currentUser = firebase.auth().currentUser
-          let querySnapshot = await db.collection('footballUsers').get() 
-          let searchDoc = querySnapshot.docs
-          let searchData = searchDoc[0].data()
+          let querySnapshot = await db.collection('footballUsers').doc(user.uid).get() 
+          // let searchDoc = querySnapshot.doc(user.uid)
+          let searchData = querySnapshot.data()
           let metric = searchData.Metric
           console.log(metric)
           let position = searchData.Position
@@ -127,29 +126,40 @@ firebase.auth().onAuthStateChanged(async function(user) {
           <a href="#" class="reset-button block text-center text-white bg-green-500 mt-16 ml-64 mr-64 px-4 py-4 rounded">Try Another Search</a>
           `
           )
-         let numberOfClicks = 0
+                   
+          
           document.querySelector(`.team-button`).addEventListener('click', async function(event) {
             event.preventDefault()
-            numberOfClicks = numberOfClicks + 1
+            
             let currentUser = firebase.auth().currentUser
-            // let querySnapshot2 = await db.collection('footballUsers').get() 
-            // let userDoc = querySnapshot2.docs
-            // let userData = userDoc[0].data()
-            // console.log(userDoc)
-            // console.log(userDoc[0])
-            // console.log(userData)
-            // console.log(userData[0])
-            // console.log(userData[1])
-            // console.log(userData.length)
-            console.log(numberOfClicks)
-            for (let i=0; i<numberOfClicks; i++) {     
+            let querySnapshot2 = await db.collection('footballUsers').doc(user.uid).get() 
+            let userData = querySnapshot2.data()
+            
+
+            if (typeof userData.NumberClicks == 'undefined') {
+              let numberOfClicks = 1
               await db.collection('footballUsers').doc(user.uid).update({
-                ["PlayerName" + i]: resultName,
-                ["PlayerPosition" + i]: resultPosition,
-                ["PlayerTeam" + i]: resultTeam,
-                ["PlayerFP" + i]: resultFP   
+                ["PlayerName" + 1]: resultName,
+                ["PlayerPosition" + 1]: resultPosition,
+                ["PlayerTeam" + 1]: resultTeam,
+                ["PlayerFP" + 1]: resultFP,   
+                NumberClicks: numberOfClicks
+              })
+              
+              }
+            else {
+              numberOfClicks = userData.NumberClicks
+              numberOfClicks = numberOfClicks + 1
+              x = numberOfClicks
+              await db.collection('footballUsers').doc(user.uid).update({
+                ["PlayerName" + x]: resultName,
+                ["PlayerPosition" + x]: resultPosition,
+                ["PlayerTeam" + x]: resultTeam,
+                ["PlayerFP" + x]: resultFP,   
+                NumberClicks: numberOfClicks
             })
-          }
+            }  
+                
           })
           document.querySelector(`.reset-button`).addEventListener('click', async function(event) {
             event.preventDefault()
@@ -166,11 +176,15 @@ firebase.auth().onAuthStateChanged(async function(user) {
       firebase.auth().signOut()
       document.location.href = "index.html"
     })
-    db.collection('footballUsers').doc(user.uid).update({
+  
+    db.collection('footballUsers').doc(user.uid).set({
       Id: user.uid,
       name: user.displayName,
       email: user.email      
-    })
+    }, {merge: true})
+  
+
+
   } else {
     // Signed out
     console.log('signed out')
