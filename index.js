@@ -171,12 +171,22 @@ firebase.auth().onAuthStateChanged(async function(user) {
           })
           }
 
-          // Print the names of all the players in the collection
+          // Print the details of all the players in the Firestore collection
           for (let i=1; i<=userData.NumberClicks; i++) {
+            let currentPlayerPosition = "PlayerPosition" + i
             let currentPlayerName = "PlayerName" + i
+            let currentPlayerTeam = "PlayerTeam" + i
+            let currentPlayerFP = "PlayerFP" + i
             // console.log(currentPlayerName)
-            let request = `userData.${currentPlayerName}`
-            console.log(eval(request)) 
+            let positionRequest = `userData.${currentPlayerPosition}`
+            let playerNameRequest = `userData.${currentPlayerName}`
+            let playerTeamRequest = `userData.${currentPlayerTeam}`
+            let playerTeamFP = `userData.${currentPlayerFP}`
+            
+            console.log(eval(positionRequest)) 
+            console.log(eval(playerNameRequest)) 
+            console.log(eval(playerTeamRequest)) 
+            console.log(eval(playerTeamFP)) 
 
             // console.log(userData.PlayerName1)
           }
