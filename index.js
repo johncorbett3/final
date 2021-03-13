@@ -134,63 +134,67 @@ firebase.auth().onAuthStateChanged(async function(user) {
           <a href="#" class="reset-button block text-center text-white bg-green-500 mt-16 ml-64 mr-64 px-4 py-4 rounded">Try Another Search</a>
           `
           )
-                   
           
-          document.querySelector(`.team-button`).addEventListener('click', async function(event) {
-            event.preventDefault()
+         
+          
+        document.querySelector(`.team-button`).addEventListener('click', async function(event) {
+          event.preventDefault()
+          
+          let currentUser = firebase.auth().currentUser
+          let querySnapshot2 = await db.collection('footballUsers').doc(user.uid).get() 
+          let userData = querySnapshot2.data()
+
+          if (typeof userData.NumberClicks == 'undefined') {
+            let numberOfClicks = 1
+            let x = numberOfClicks
+            console.log(numberOfClicks)
+            await db.collection('footballUsers').doc(user.uid).update({
+              ["PlayerName" + x]: resultName,
+              ["PlayerPosition" + x]: resultPosition,
+              ["PlayerTeam" + x]: resultTeam,
+              ["PlayerFP" + x]: resultFP,   
+              NumberClicks: numberOfClicks
+            })
+            
+            }
+          else {
+            numberOfClicks = userData.NumberClicks
+            numberOfClicks = numberOfClicks + 1
+            x = numberOfClicks
+            console.log(numberOfClicks)
+            await db.collection('footballUsers').doc(user.uid).update({
+              ["PlayerName" + x]: resultName,
+              ["PlayerPosition" + x]: resultPosition,
+              ["PlayerTeam" + x]: resultTeam,
+              ["PlayerFP" + x]: resultFP,   
+              NumberClicks: numberOfClicks
+          })
+          }
+
+          for (let i=1; i<=userData.NumberClicks; i++) {
+            console.log(i)
+          }
 
           document.querySelector('.QB1Name').insertAdjacentHTML('beforeend', `
-            ${resultName}
-          `)
+          ${resultName}
+        `)
 
-          document.querySelector('.QB1Team').insertAdjacentHTML('beforeend', `
-            ${resultTeam}
-          `)
+        document.querySelector('.QB1Team').insertAdjacentHTML('beforeend', `
+          ${resultTeam}
+        `)
 
-          document.querySelector('.QB1FP').insertAdjacentHTML('beforeend', `
-            ${resultFP}
-          `)
-            
-            let currentUser = firebase.auth().currentUser
-            let querySnapshot2 = await db.collection('footballUsers').doc(user.uid).get() 
-            let userData = querySnapshot2.data()
+        document.querySelector('.QB1FP').insertAdjacentHTML('beforeend', `
+          ${resultFP}
+        `)
 
-            console.log(userData.PlayerPosition1)
-            console.log(userData.PlayerName1)
-            console.log(userData.PlayerTeam1)
-            console.log(userData.PlayerFP1)
-            
 
-            if (typeof userData.NumberClicks == 'undefined') {
-              let numberOfClicks = 1
-              await db.collection('footballUsers').doc(user.uid).update({
-                ["PlayerName" + 1]: resultName,
-                ["PlayerPosition" + 1]: resultPosition,
-                ["PlayerTeam" + 1]: resultTeam,
-                ["PlayerFP" + 1]: resultFP,   
-                NumberClicks: numberOfClicks
-              })
-              
-              }
-            else {
-              numberOfClicks = userData.NumberClicks
-              numberOfClicks = numberOfClicks + 1
-              x = numberOfClicks
-              await db.collection('footballUsers').doc(user.uid).update({
-                ["PlayerName" + x]: resultName,
-                ["PlayerPosition" + x]: resultPosition,
-                ["PlayerTeam" + x]: resultTeam,
-                ["PlayerFP" + x]: resultFP,   
-                NumberClicks: numberOfClicks
-            })
-            }
+        })
 
-          })
-          document.querySelector(`.reset-button`).addEventListener('click', async function(event) {
-            event.preventDefault()
-            location.reload();
-          })
-          }) 
+        document.querySelector(`.reset-button`).addEventListener('click', async function(event) {
+          event.preventDefault()
+          location.reload();
+        })
+        }) 
           
 
     document.querySelector(".sign-in-or-sign-out").innerHTML = `
