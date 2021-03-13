@@ -171,8 +171,9 @@ firebase.auth().onAuthStateChanged(async function(user) {
           })
           }
 
+          // This is the tricky part - can't loop through PlayerName1, PlayerName2 etc. with a variable given structure of collection
           for (let i=1; i<=userData.NumberClicks; i++) {
-            console.log(i)
+            console.log(userData.PlayerName1)
           }
 
           document.querySelector('.QB1Name').insertAdjacentHTML('beforeend', `
