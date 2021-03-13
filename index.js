@@ -21,41 +21,11 @@ firebase.auth().onAuthStateChanged(async function(user) {
     `)
 
     document.querySelector('.resultsTable').insertAdjacentHTML('beforeend', `
-    <div class="grid grid-cols-4 grid-rows-6 gap-4 border-2 text-center text-green m-4 p-4">
+    <div class="grid grid-cols-4 grid-rows-1 gap-4 border-2 text-center text-green m-4 p-4">
       <div class="font-bold">Position</div>
       <div class="font-bold">Name</div>
       <div class="font-bold">Team</div>
       <div class="font-bold">Fantasy Points</div>
-
-      <div class="QB1Position">QB</div>
-      <div class="QB1Name"></div>
-      <div class="QB1Team"></div>
-      <div class="QB1FP"></div>
-
-      <div class="RB1Position">RB</div>
-      <div class="RB1Name"></div>
-      <div class="RB1Team"></div>
-      <div class="RB1FP"></div>
-
-      <div class="RB2Position">RB</div>
-      <div class="RB2Name"></div>
-      <div class="RB2Team"></div>
-      <div class="RB2FP"></div>
-
-      <div class="WR1Position">WR</div>
-      <div class="WR1Name"></div>
-      <div class="WR1Team"></div>
-      <div class="WR1FP"></div>
-
-      <div class="WR2Position">WR</div>
-      <div class="WR2Name"></div>
-      <div class="WR2Team"></div>
-      <div class="WR2FP"></div>
-
-      <div class="TE1Position">TE</div>
-      <div class="TE1Name"></div>
-      <div class="TE1Team"></div>
-      <div class="TE1FP"></div>
     </div>
     `)
 
@@ -135,8 +105,6 @@ firebase.auth().onAuthStateChanged(async function(user) {
           `
           )
           
-         
-          
         document.querySelector(`.team-button`).addEventListener('click', async function(event) {
           event.preventDefault()
           
@@ -172,7 +140,7 @@ firebase.auth().onAuthStateChanged(async function(user) {
           }
 
           // Print the details of all the players in the Firestore collection
-          for (let i=1; i<=userData.NumberClicks; i++) {
+          for (let i=1; i < (userData.NumberClicks + 2); i++) {
             let currentPlayerPosition = "PlayerPosition" + i
             let currentPlayerName = "PlayerName" + i
             let currentPlayerTeam = "PlayerTeam" + i
@@ -188,58 +156,65 @@ firebase.auth().onAuthStateChanged(async function(user) {
             console.log(eval(playerTeamRequest)) 
             console.log(eval(playerTeamFP)) 
 
-            // console.log(userData.PlayerName1)
+            document.querySelector('.resultsTable').insertAdjacentHTML('beforeend', `
+              <div class="grid grid-cols-4 grid-rows-1 gap-4 border-2 text-center text-green">
+                <div class="QB1Position">${eval(positionRequest)}</div>
+                <div class="QB1Name">${eval(playerNameRequest)}</div>
+                <div class="QB1Team">${eval(playerTeamRequest)}</div>
+                <div class="QB1FP">${eval(playerTeamFP)}</div>
+              </div>
+        `)
           }
 
-          if (userData.Position == "QB") {
+          // if (userData.Position == "QB") {
       
-            document.querySelector('.QB1Name').insertAdjacentHTML('beforeend', `
-            ${userData.PlayerName1}
-            `)
-            document.querySelector('.QB1Team').insertAdjacentHTML('beforeend', `
-            ${userData.PlayerTeam1}
-            `)
-            document.querySelector('.QB1FP').insertAdjacentHTML('beforeend', `
-            ${userData.PlayerFP1}
-            `)
+          //   document.querySelector('.QB1Name').insertAdjacentHTML('beforeend', `
+          //   ${userData.PlayerName1}
+          //   `)
+          //   document.querySelector('.QB1Team').insertAdjacentHTML('beforeend', `
+          //   ${userData.PlayerTeam1}
+          //   `)
+          //   document.querySelector('.QB1FP').insertAdjacentHTML('beforeend', `
+          //   ${userData.PlayerFP1}
+          //   `)
           
-          } else if (userData.Position == "RB") {
+          // } else if (userData.Position == "RB") {
 
-            document.querySelector('.RB1Name').insertAdjacentHTML('beforeend', `
-            ${userData.PlayerName2}
-            `)
-            document.querySelector('.RB1Team').insertAdjacentHTML('beforeend', `
-            ${userData.PlayerTeam2}
-            `)
-            document.querySelector('.RB1FP').insertAdjacentHTML('beforeend', `
-            ${userData.PlayerFP2}
-            `)
+          //   document.querySelector('.RB1Name').insertAdjacentHTML('beforeend', `
+          //   ${userData.PlayerName2}
+          //   `)
+          //   document.querySelector('.RB1Team').insertAdjacentHTML('beforeend', `
+          //   ${userData.PlayerTeam2}
+          //   `)
+          //   document.querySelector('.RB1FP').insertAdjacentHTML('beforeend', `
+          //   ${userData.PlayerFP2}
+          //   `)
 
-          } else if (userData.Position == "WR") {
+          // } else if (userData.Position == "WR") {
 
-            document.querySelector('.WR1Name').insertAdjacentHTML('beforeend', `
-            ${userData.PlayerName3}
-            `)
-            document.querySelector('.WR1Team').insertAdjacentHTML('beforeend', `
-            ${userData.PlayerTeam3}
-            `)
-            document.querySelector('.WR1FP').insertAdjacentHTML('beforeend', `
-            ${userData.PlayerFP3}
-            `)
+          //   document.querySelector('.WR1Name').insertAdjacentHTML('beforeend', `
+          //   ${userData.PlayerName3}
+          //   `)
+          //   document.querySelector('.WR1Team').insertAdjacentHTML('beforeend', `
+          //   ${userData.PlayerTeam3}
+          //   `)
+          //   document.querySelector('.WR1FP').insertAdjacentHTML('beforeend', `
+          //   ${userData.PlayerFP3}
+          //   `)
 
-          } else {
+          // } else {
 
-            document.querySelector('.TE1Name').insertAdjacentHTML('beforeend', `
-            ${userData.PlayerName4}
-            `)
-            document.querySelector('.TE1Team').insertAdjacentHTML('beforeend', `
-            ${userData.PlayerTeam4}
-            `)
-            document.querySelector('.TE1FP').insertAdjacentHTML('beforeend', `
-            ${userData.PlayerP4}
-            `)
+          //   document.querySelector('.TE1Name').insertAdjacentHTML('beforeend', `
+          //   ${userData.PlayerName4}
+          //   `)
+          //   document.querySelector('.TE1Team').insertAdjacentHTML('beforeend', `
+          //   ${userData.PlayerTeam4}
+          //   `)
+          //   document.querySelector('.TE1FP').insertAdjacentHTML('beforeend', `
+          //   ${userData.PlayerP4}
+          //   `)
 
-          }
+          // }
 
 
 
