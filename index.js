@@ -124,7 +124,7 @@ firebase.auth().onAuthStateChanged(async function(user) {
               ["PlayerFP" + x]: resultFP   
             })
             }
-            
+
           else {
             numberOfClicks = userData.NumberClicks
             numberOfClicks = numberOfClicks + 1
@@ -140,7 +140,7 @@ firebase.auth().onAuthStateChanged(async function(user) {
           }
 
           // Print the details of all the players in the Firestore collection
-          for (let i=1; i < (userData.NumberClicks + 2); i++) {
+          for (let i=1; i <= (userData.NumberClicks + 1); i++) {
             let currentPlayerPosition = "PlayerPosition" + i
             let currentPlayerName = "PlayerName" + i
             let currentPlayerTeam = "PlayerTeam" + i
