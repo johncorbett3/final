@@ -117,25 +117,25 @@ firebase.auth().onAuthStateChanged(async function(user) {
             let x = numberOfClicks
             console.log(numberOfClicks)
             await db.collection('footballUsers').doc(user.uid).update({
+              NumberClicks: numberOfClicks,
               ["PlayerName" + x]: resultName,
               ["PlayerPosition" + x]: resultPosition,
               ["PlayerTeam" + x]: resultTeam,
-              ["PlayerFP" + x]: resultFP,   
-              NumberClicks: numberOfClicks
+              ["PlayerFP" + x]: resultFP   
             })
-            
             }
+            
           else {
             numberOfClicks = userData.NumberClicks
             numberOfClicks = numberOfClicks + 1
             x = numberOfClicks
             console.log(numberOfClicks) 
             await db.collection('footballUsers').doc(user.uid).update({
+              NumberClicks: numberOfClicks,
               ["PlayerName" + x]: resultName,
               ["PlayerPosition" + x]: resultPosition,
               ["PlayerTeam" + x]: resultTeam,
-              ["PlayerFP" + x]: resultFP,   
-              NumberClicks: numberOfClicks
+              ["PlayerFP" + x]: resultFP   
           })
           }
 
@@ -156,8 +156,10 @@ firebase.auth().onAuthStateChanged(async function(user) {
             console.log(eval(playerTeamRequest)) 
             console.log(eval(playerTeamFP)) 
 
+            console.log(i)
+
             document.querySelector('.resultsTable').insertAdjacentHTML('beforeend', `
-              <div class="grid grid-cols-4 grid-rows-1 gap-4 border-2 text-center text-green">
+              <div class="grid grid-cols-4 grid-rows-1 gap-4 border-2 text-center text-green  mx-4 px-4">
                 <div class="QB1Position">${eval(positionRequest)}</div>
                 <div class="QB1Name">${eval(playerNameRequest)}</div>
                 <div class="QB1Team">${eval(playerTeamRequest)}</div>
