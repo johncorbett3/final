@@ -161,7 +161,7 @@ firebase.auth().onAuthStateChanged(async function(user) {
             numberOfClicks = userData.NumberClicks
             numberOfClicks = numberOfClicks + 1
             x = numberOfClicks
-            console.log(numberOfClicks)
+            console.log(numberOfClicks) 
             await db.collection('footballUsers').doc(user.uid).update({
               ["PlayerName" + x]: resultName,
               ["PlayerPosition" + x]: resultPosition,
@@ -171,23 +171,66 @@ firebase.auth().onAuthStateChanged(async function(user) {
           })
           }
 
-          // This is the tricky part - can't loop through PlayerName1, PlayerName2 etc. with a variable given structure of collection
-          // Do we need multiple collections, e.g. hw #7?
+          // Print the names of all the players in the collection
           for (let i=1; i<=userData.NumberClicks; i++) {
-            console.log(userData.PlayerName1)
+            let currentPlayerName = "PlayerName" + i
+            // console.log(currentPlayerName)
+            let request = `userData.${currentPlayerName}`
+            console.log(eval(request)) 
+
+            // console.log(userData.PlayerName1)
           }
 
-          document.querySelector('.QB1Name').insertAdjacentHTML('beforeend', `
-          ${resultName}
-        `)
+          if (userData.Position == "QB") {
+      
+            document.querySelector('.QB1Name').insertAdjacentHTML('beforeend', `
+            ${userData.PlayerName1}
+            `)
+            document.querySelector('.QB1Team').insertAdjacentHTML('beforeend', `
+            ${userData.PlayerTeam1}
+            `)
+            document.querySelector('.QB1FP').insertAdjacentHTML('beforeend', `
+            ${userData.PlayerFP1}
+            `)
+          
+          } else if (userData.Position == "RB") {
 
-        document.querySelector('.QB1Team').insertAdjacentHTML('beforeend', `
-          ${resultTeam}
-        `)
+            document.querySelector('.RB1Name').insertAdjacentHTML('beforeend', `
+            ${userData.PlayerName2}
+            `)
+            document.querySelector('.RB1Team').insertAdjacentHTML('beforeend', `
+            ${userData.PlayerTeam2}
+            `)
+            document.querySelector('.RB1FP').insertAdjacentHTML('beforeend', `
+            ${userData.PlayerFP2}
+            `)
 
-        document.querySelector('.QB1FP').insertAdjacentHTML('beforeend', `
-          ${resultFP}
-        `)
+          } else if (userData.Position == "WR") {
+
+            document.querySelector('.WR1Name').insertAdjacentHTML('beforeend', `
+            ${userData.PlayerName3}
+            `)
+            document.querySelector('.WR1Team').insertAdjacentHTML('beforeend', `
+            ${userData.PlayerTeam3}
+            `)
+            document.querySelector('.WR1FP').insertAdjacentHTML('beforeend', `
+            ${userData.PlayerFP3}
+            `)
+
+          } else {
+
+            document.querySelector('.TE1Name').insertAdjacentHTML('beforeend', `
+            ${userData.PlayerName4}
+            `)
+            document.querySelector('.TE1Team').insertAdjacentHTML('beforeend', `
+            ${userData.PlayerTeam4}
+            `)
+            document.querySelector('.TE1FP').insertAdjacentHTML('beforeend', `
+            ${userData.PlayerP4}
+            `)
+
+          }
+
 
 
         })
