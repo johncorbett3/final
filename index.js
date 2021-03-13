@@ -139,11 +139,6 @@ firebase.auth().onAuthStateChanged(async function(user) {
           document.querySelector(`.team-button`).addEventListener('click', async function(event) {
             event.preventDefault()
 
-            console.log(resultName)
-            console.log(resultPosition)
-            console.log(resultTeam)
-            console.log(resultFP)
-
           document.querySelector('.QB1Name').insertAdjacentHTML('beforeend', `
             ${resultName}
           `)
@@ -159,6 +154,11 @@ firebase.auth().onAuthStateChanged(async function(user) {
             let currentUser = firebase.auth().currentUser
             let querySnapshot2 = await db.collection('footballUsers').doc(user.uid).get() 
             let userData = querySnapshot2.data()
+
+            console.log(userData.PlayerPosition1)
+            console.log(userData.PlayerName1)
+            console.log(userData.PlayerTeam1)
+            console.log(userData.PlayerFP1)
             
 
             if (typeof userData.NumberClicks == 'undefined') {
