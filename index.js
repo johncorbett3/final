@@ -27,10 +27,35 @@ firebase.auth().onAuthStateChanged(async function(user) {
       <div class="font-bold">Team</div>
       <div class="font-bold">Fantasy Points</div>
 
-      <div>Position</div>
-      <div>Name</div>
-      <div>Team</div>
-      <div>Fantasy Points</div>
+      <div class="QB1Position">QB</div>
+      <div class="QB1Name"></div>
+      <div class="QB1Team"></div>
+      <div class="QB1FP"></div>
+
+      <div class="RB1Position">RB</div>
+      <div class="RB1Name"></div>
+      <div class="RB1Team"></div>
+      <div class="RB1FP"></div>
+
+      <div class="RB2Position">RB</div>
+      <div class="RB2Name"></div>
+      <div class="RB2Team"></div>
+      <div class="RB2FP"></div>
+
+      <div class="WR1Position">WR</div>
+      <div class="WR1Name"></div>
+      <div class="WR1Team"></div>
+      <div class="WR1FP"></div>
+
+      <div class="WR2Position">WR</div>
+      <div class="WR2Name"></div>
+      <div class="WR2Team"></div>
+      <div class="WR2FP"></div>
+
+      <div class="TE1Position">TE</div>
+      <div class="TE1Name"></div>
+      <div class="TE1Team"></div>
+      <div class="TE1FP"></div>
     </div>
     `)
 
@@ -113,6 +138,23 @@ firebase.auth().onAuthStateChanged(async function(user) {
           
           document.querySelector(`.team-button`).addEventListener('click', async function(event) {
             event.preventDefault()
+
+            console.log(resultName)
+            console.log(resultPosition)
+            console.log(resultTeam)
+            console.log(resultFP)
+
+          document.querySelector('.QB1Name').insertAdjacentHTML('beforeend', `
+            ${resultName}
+          `)
+
+          document.querySelector('.QB1Team').insertAdjacentHTML('beforeend', `
+            ${resultTeam}
+          `)
+
+          document.querySelector('.QB1FP').insertAdjacentHTML('beforeend', `
+            ${resultFP}
+          `)
             
             let currentUser = firebase.auth().currentUser
             let querySnapshot2 = await db.collection('footballUsers').doc(user.uid).get() 
@@ -141,11 +183,7 @@ firebase.auth().onAuthStateChanged(async function(user) {
                 ["PlayerFP" + x]: resultFP,   
                 NumberClicks: numberOfClicks
             })
-            }  
-             console.log(resultName)   
-             console.log(resultPosition)   
-             console.log(resultTeam)   
-             console.log(resultFP)   
+            }
 
           })
           document.querySelector(`.reset-button`).addEventListener('click', async function(event) {
