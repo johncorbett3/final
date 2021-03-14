@@ -30,6 +30,7 @@ firebase.auth().onAuthStateChanged(async function(user) {
     `)
 
     document.querySelector('.buttons').insertAdjacentHTML('beforeend', `
+    <a class ="text-xl text-left ml-8 font-bold text-black-500">Select one position and one metric to find last year's league leader</a>
     <div class="flex">
       <div class="block text-left text-gray-400 text-3xl w-1/5 m-4 px-4 py-2 rounded">Position: </div>
       <a href="#" class="QB-button block text-center text-white bg-gray-400 w-1/5 m-4 px-4 py-4 rounded">QB</a>
@@ -101,7 +102,7 @@ firebase.auth().onAuthStateChanged(async function(user) {
           <h1 class = "uppercase m-4 text-center text-2xl font-bold text-blue-700">Team: ${resultTeam}</h1>
           <h1 class = "uppercase m-4 text-center text-2xl font-bold text-blue-700">2019 Fantasy Points: ${resultFP}</h1>
           <a href="#" class="team-button block text-center text-white bg-green-500 ml-64 mr-64 px-4 py-4 rounded">Add to Team</a>
-          <a href="#" class="roster-button block text-center text-white bg-green-500 mt-2 ml-64 mr-64 px-4 py-4 rounded">Update Roster</a>
+          <a href="#" class="roster-button block text-center text-white bg-green-500 mt-2 ml-64 mr-64 px-4 py-4 rounded">Show My Team</a>
           <a href="#" class="reset-button block text-center text-white bg-green-500 mt-16 ml-64 mr-64 px-4 py-4 rounded">Try Another Search</a>
           <a href="#" class="clear-button block text-center text-white bg-red-500 mt-2 ml-64 mr-64 px-4 py-4 rounded">Clear the Roster</a>
           `
