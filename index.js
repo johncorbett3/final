@@ -85,12 +85,12 @@ firebase.auth().onAuthStateChanged(async function(user) {
           // let searchDoc = querySnapshot.doc(user.uid)
           let searchData = querySnapshot.data()
           let metric = searchData.Metric
-          console.log(metric)
+          // console.log(metric)
           let position = searchData.Position
-          console.log(position)
+          // console.log(position)
           let sportsDB = await fetch(`https://api.sportsdata.io/v3/nfl/stats/json/SeasonLeagueLeaders/2019REG/${position}/${metric}?key=${apiKey}`)
           let sportsJson = await sportsDB.json()
-          console.log(sportsJson[0].Name)
+          // console.log(sportsJson[0].Name)
           let resultName = sportsJson[0].Name
           let resultPosition = sportsJson[0].Position
           let resultTeam = sportsJson[0].Team
@@ -114,38 +114,42 @@ firebase.auth().onAuthStateChanged(async function(user) {
 
           if (typeof userData.NumberClicks == 'undefined') {
             let numberOfClicks = 1
-            let x = numberOfClicks
-            console.log(numberOfClicks)
+            // console.log(numberOfClicks)
             await db.collection('footballUsers').doc(user.uid).update({
-              NumberClicks: numberOfClicks,
-              ["PlayerName" + x]: resultName,
-              ["PlayerPosition" + x]: resultPosition,
-              ["PlayerTeam" + x]: resultTeam,
-              ["PlayerFP" + x]: resultFP   
+              ["PlayerName" + 1]: resultName,
+              ["PlayerPosition" + 1]: resultPosition,
+              ["PlayerTeam" + 1]: resultTeam,
+              ["PlayerFP" + 1]: resultFP,   
+              NumberClicks: numberOfClicks
             })
             }
 
           else {
             numberOfClicks = userData.NumberClicks
+            console.log(numberOfClicks)
             numberOfClicks = numberOfClicks + 1
+            console.log(numberOfClicks)
             x = numberOfClicks
-            console.log(numberOfClicks) 
+            
             await db.collection('footballUsers').doc(user.uid).update({
-              NumberClicks: numberOfClicks,
               ["PlayerName" + x]: resultName,
               ["PlayerPosition" + x]: resultPosition,
               ["PlayerTeam" + x]: resultTeam,
-              ["PlayerFP" + x]: resultFP   
+              ["PlayerFP" + x]: resultFP,   
+              NumberClicks: numberOfClicks
           })
           }
 
           // Print the details of all the players in the Firestore collection
-          for (let i=1; i <= (userData.NumberClicks + 1); i++) {
+
+          for (let i=1; i <= (numberOfClicks); i++) {
+            console.log(numberOfClicks)
             let currentPlayerPosition = "PlayerPosition" + i
             let currentPlayerName = "PlayerName" + i
             let currentPlayerTeam = "PlayerTeam" + i
             let currentPlayerFP = "PlayerFP" + i
-            // console.log(currentPlayerName)
+            console.log(currentPlayerPosition)
+
             let positionRequest = `userData.${currentPlayerPosition}`
             let playerNameRequest = `userData.${currentPlayerName}`
             let playerTeamRequest = `userData.${currentPlayerTeam}`
@@ -167,6 +171,13 @@ firebase.auth().onAuthStateChanged(async function(user) {
               </div>
         `)
           }
+
+          console.log(userData)
+          console.log(numberOfClicks) 
+
+          
+
+          
 
           // if (userData.Position == "QB") {
       
