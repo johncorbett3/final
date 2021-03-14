@@ -135,6 +135,11 @@ firebase.auth().onAuthStateChanged(async function(user) {
               let playerNameRequest = `userData.${currentPlayerName}`
               let playerTeamRequest = `userData.${currentPlayerTeam}`
               let playerTeamFP = `userData.${currentPlayerFP}`
+
+              console.log(positionRequest)
+              console.log(playerNameRequest)
+              console.log(playerTeamRequest)
+              console.log(playerTeamFP)
               
               console.log(eval(positionRequest)) 
               console.log(eval(playerNameRequest)) 
@@ -168,6 +173,11 @@ firebase.auth().onAuthStateChanged(async function(user) {
               ["PlayerFP" + x]: resultFP,   
               NumberClicks: numberOfClicks
           })
+
+          console.log(userData.PlayerName1)
+          console.log(userData.PlayerName2)
+          console.log(userData.PlayerName3)
+          console.log(userData.PlayerName4)
 
           for (let i=1; i <= (numberOfClicks); i++) {
 
