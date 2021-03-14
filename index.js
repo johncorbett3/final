@@ -101,6 +101,7 @@ firebase.auth().onAuthStateChanged(async function(user) {
           <h1 class = "uppercase m-4 text-center text-2xl font-bold text-blue-700">Team: ${resultTeam}</h1>
           <h1 class = "uppercase m-4 text-center text-2xl font-bold text-blue-700">2019 Fantasy Points: ${resultFP}</h1>
           <a href="#" class="team-button block text-center text-white bg-green-500 ml-64 mr-64 px-4 py-4 rounded">Add to Team</a>
+          <a href="#" class="roster-button block text-center text-white bg-green-500 mt-2 ml-64 mr-64 px-4 py-4 rounded">Update Roster</a>
           <a href="#" class="reset-button block text-center text-white bg-green-500 mt-16 ml-64 mr-64 px-4 py-4 rounded">Try Another Search</a>
           `
           )
@@ -114,7 +115,6 @@ firebase.auth().onAuthStateChanged(async function(user) {
 
           if (typeof userData.NumberClicks == 'undefined') {
             let numberOfClicks = 1
-            // console.log(numberOfClicks)
             await db.collection('footballUsers').doc(user.uid).update({
               ["PlayerName" + 1]: resultName,
               ["PlayerPosition" + 1]: resultPosition,
@@ -122,13 +122,13 @@ firebase.auth().onAuthStateChanged(async function(user) {
               ["PlayerFP" + 1]: resultFP,   
               NumberClicks: numberOfClicks
             })
+            console.log("Player has been added to the team!")
             }
-
+            
           else {
             numberOfClicks = userData.NumberClicks
             numberOfClicks = numberOfClicks + 1
             x = numberOfClicks
-            console.log(x)
             
             await db.collection('footballUsers').doc(user.uid).update({
               ["PlayerName" + x]: resultName,
@@ -137,47 +137,39 @@ firebase.auth().onAuthStateChanged(async function(user) {
               ["PlayerFP" + x]: resultFP,   
               NumberClicks: numberOfClicks
           })
-
-          console.log(userData.PlayerName1)
-          console.log(userData.PlayerName2)
-          console.log(userData.PlayerName3)
-          console.log(userData.PlayerName4)
+          console.log("Player has been added to the team!")
           }
+        })
 
-          // Print the details of all the players in the Firestore collection
-          for (let i=1; i <= (numberOfClicks); i++) {
+        document.querySelector(`.roster-button`).addEventListener('click', async function(event) {
+          event.preventDefault()
 
-            let currentPlayerPosition = "PlayerPosition" + i
-            let currentPlayerName = "PlayerName" + i
-            let currentPlayerTeam = "PlayerTeam" + i
-            let currentPlayerFP = "PlayerFP" + i
+          let currentUser = firebase.auth().currentUser
+          let querySnapshot2 = await db.collection('footballUsers').doc(user.uid).get() 
+          let userData = querySnapshot2.data()
+    
+            // Print the details of all the players in the Firestore collection
+            for (let i=1; i <= userData.NumberClicks; i++) {
 
-            let positionRequest = `userData.${currentPlayerPosition}`
-            let playerNameRequest = `userData.${currentPlayerName}`
-            let playerTeamRequest = `userData.${currentPlayerTeam}`
-            let playerTeamFP = `userData.${currentPlayerFP}`
-            
-            console.log(positionRequest)
-            console.log(playerNameRequest)
-            console.log(playerTeamRequest)
-            console.log(playerTeamFP)
-                        
-            console.log(eval(positionRequest)) 
-            console.log(eval(playerNameRequest)) 
-            console.log(eval(playerTeamRequest)) 
-            console.log(eval(playerTeamFP)) 
+              let currentPlayerPosition = "PlayerPosition" + i
+              let currentPlayerName = "PlayerName" + i
+              let currentPlayerTeam = "PlayerTeam" + i
+              let currentPlayerFP = "PlayerFP" + i
 
-            console.log(i)
+              let positionRequest = `userData.${currentPlayerPosition}`
+              let playerNameRequest = `userData.${currentPlayerName}`
+              let playerTeamRequest = `userData.${currentPlayerTeam}`
+              let playerTeamFP = `userData.${currentPlayerFP}`
 
-            document.querySelector('.resultsTable').insertAdjacentHTML('beforeend', `
-              <div class="grid grid-cols-4 grid-rows-1 gap-4 border-2 text-center text-green  mx-4 px-4">
-                <div class="QB1Position">${eval(positionRequest)}</div>
-                <div class="QB1Name">${eval(playerNameRequest)}</div>
-                <div class="QB1Team">${eval(playerTeamRequest)}</div>
-                <div class="QB1FP">${eval(playerTeamFP)}</div>
-              </div>
-             `)
-          }
+              document.querySelector('.resultsTable').insertAdjacentHTML('beforeend', `
+                <div class="grid grid-cols-4 grid-rows-1 gap-4 border-2 text-center text-green  mx-4 px-4">
+                  <div class="QB1Position">${eval(positionRequest)}</div>
+                  <div class="QB1Name">${eval(playerNameRequest)}</div>
+                  <div class="QB1Team">${eval(playerTeamRequest)}</div>
+                  <div class="QB1FP">${eval(playerTeamFP)}</div>
+                </div>
+              `)
+            }
         })
 
         document.querySelector(`.reset-button`).addEventListener('click', async function(event) {
