@@ -122,42 +122,6 @@ firebase.auth().onAuthStateChanged(async function(user) {
               ["PlayerFP" + 1]: resultFP,   
               NumberClicks: numberOfClicks
             })
-
-            for (let i=1; i <= (numberOfClicks); i++) {
-              console.log(numberOfClicks)
-              let currentPlayerPosition = "PlayerPosition" + i
-              let currentPlayerName = "PlayerName" + i
-              let currentPlayerTeam = "PlayerTeam" + i
-              let currentPlayerFP = "PlayerFP" + i
-              console.log(currentPlayerPosition)
-  
-              let positionRequest = `userData.${currentPlayerPosition}`
-              let playerNameRequest = `userData.${currentPlayerName}`
-              let playerTeamRequest = `userData.${currentPlayerTeam}`
-              let playerTeamFP = `userData.${currentPlayerFP}`
-
-              console.log(positionRequest)
-              console.log(playerNameRequest)
-              console.log(playerTeamRequest)
-              console.log(playerTeamFP)
-              
-              console.log(eval(positionRequest)) 
-              console.log(eval(playerNameRequest)) 
-              console.log(eval(playerTeamRequest)) 
-              console.log(eval(playerTeamFP)) 
-  
-              console.log(i)
-  
-              document.querySelector('.resultsTable').insertAdjacentHTML('beforeend', `
-                <div class="grid grid-cols-4 grid-rows-1 gap-4 border-2 text-center text-green  mx-4 px-4">
-                  <div class="QB1Position">${eval(positionRequest)}</div>
-                  <div class="QB1Name">${eval(playerNameRequest)}</div>
-                  <div class="QB1Team">${eval(playerTeamRequest)}</div>
-                  <div class="QB1FP">${eval(playerTeamFP)}</div>
-                </div>
-          `)
-          console.log(userData)
-            }
             }
 
           else {
@@ -178,7 +142,9 @@ firebase.auth().onAuthStateChanged(async function(user) {
           console.log(userData.PlayerName2)
           console.log(userData.PlayerName3)
           console.log(userData.PlayerName4)
+          }
 
+          // Print the details of all the players in the Firestore collection
           for (let i=1; i <= (numberOfClicks); i++) {
 
             let currentPlayerPosition = "PlayerPosition" + i
@@ -210,15 +176,56 @@ firebase.auth().onAuthStateChanged(async function(user) {
                 <div class="QB1Team">${eval(playerTeamRequest)}</div>
                 <div class="QB1FP">${eval(playerTeamFP)}</div>
               </div>
-        `)
+             `)
           }
-          }
+        })
 
-          // Print the details of all the players in the Firestore collection
-
+        document.querySelector(`.reset-button`).addEventListener('click', async function(event) {
+          event.preventDefault()
+          location.reload();
+        })
+        }) 
           
 
-          
+    document.querySelector(".sign-in-or-sign-out").innerHTML = `
+    <button class="text-pink-500 underline sign-out">Sign Out</button>
+    `
+    document.querySelector(".sign-out").addEventListener("click", function(event) {
+      console.log("sign out clicked")
+      firebase.auth().signOut()
+      document.location.href = "index.html"
+    })
+  
+    db.collection('footballUsers').doc(user.uid).set({
+      Id: user.uid,
+      name: user.displayName,
+      email: user.email      
+    }, {merge: true})
+  
+
+
+  } else {
+    // Signed out
+    console.log('signed out')
+    document.querySelector('.football').classList.add('Nothing')
+    
+
+    // Initializes FirebaseUI Auth
+    let ui = new firebaseui.auth.AuthUI(firebase.auth())
+
+    // FirebaseUI configuration
+    let authUIConfig = {
+      signInOptions: [
+        firebase.auth.EmailAuthProvider.PROVIDER_ID
+      ],
+      signInSuccessUrl: 'index.html'
+    }
+
+    // Starts FirebaseUI Auth
+    ui.start('.sign-in-or-sign-out', authUIConfig)
+  }
+})
+
 
           // if (userData.Position == "QB") {
       
@@ -269,53 +276,3 @@ firebase.auth().onAuthStateChanged(async function(user) {
           //   `)
 
           // }
-
-
-
-        })
-
-        document.querySelector(`.reset-button`).addEventListener('click', async function(event) {
-          event.preventDefault()
-          location.reload();
-        })
-        }) 
-          
-
-    document.querySelector(".sign-in-or-sign-out").innerHTML = `
-    <button class="text-pink-500 underline sign-out">Sign Out</button>
-    `
-    document.querySelector(".sign-out").addEventListener("click", function(event) {
-      console.log("sign out clicked")
-      firebase.auth().signOut()
-      document.location.href = "index.html"
-    })
-  
-    db.collection('footballUsers').doc(user.uid).set({
-      Id: user.uid,
-      name: user.displayName,
-      email: user.email      
-    }, {merge: true})
-  
-
-
-  } else {
-    // Signed out
-    console.log('signed out')
-    document.querySelector('.football').classList.add('Nothing')
-    
-
-    // Initializes FirebaseUI Auth
-    let ui = new firebaseui.auth.AuthUI(firebase.auth())
-
-    // FirebaseUI configuration
-    let authUIConfig = {
-      signInOptions: [
-        firebase.auth.EmailAuthProvider.PROVIDER_ID
-      ],
-      signInSuccessUrl: 'index.html'
-    }
-
-    // Starts FirebaseUI Auth
-    ui.start('.sign-in-or-sign-out', authUIConfig)
-  }
-})
