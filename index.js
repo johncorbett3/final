@@ -103,6 +103,7 @@ firebase.auth().onAuthStateChanged(async function(user) {
           <a href="#" class="team-button block text-center text-white bg-green-500 ml-64 mr-64 px-4 py-4 rounded">Add to Team</a>
           <a href="#" class="roster-button block text-center text-white bg-green-500 mt-2 ml-64 mr-64 px-4 py-4 rounded">Update Roster</a>
           <a href="#" class="reset-button block text-center text-white bg-green-500 mt-16 ml-64 mr-64 px-4 py-4 rounded">Try Another Search</a>
+          <a href="#" class="clear-button block text-center text-white bg-red-500 mt-2 ml-64 mr-64 px-4 py-4 rounded">Clear the Roster</a>
           `
           )
           
@@ -176,6 +177,12 @@ firebase.auth().onAuthStateChanged(async function(user) {
           event.preventDefault()
           location.reload();
         })
+
+        document.querySelector(`.clear-button`).addEventListener('click', async function(event) {
+          event.preventDefault()
+          await db.collection('footballUsers').doc(user.uid).delete()
+          console.log("Team data has been cleared!")
+        }) 
         }) 
           
 
