@@ -122,14 +122,44 @@ firebase.auth().onAuthStateChanged(async function(user) {
               ["PlayerFP" + 1]: resultFP,   
               NumberClicks: numberOfClicks
             })
+
+            for (let i=1; i <= (numberOfClicks); i++) {
+              console.log(numberOfClicks)
+              let currentPlayerPosition = "PlayerPosition" + i
+              let currentPlayerName = "PlayerName" + i
+              let currentPlayerTeam = "PlayerTeam" + i
+              let currentPlayerFP = "PlayerFP" + i
+              console.log(currentPlayerPosition)
+  
+              let positionRequest = `userData.${currentPlayerPosition}`
+              let playerNameRequest = `userData.${currentPlayerName}`
+              let playerTeamRequest = `userData.${currentPlayerTeam}`
+              let playerTeamFP = `userData.${currentPlayerFP}`
+              
+              console.log(eval(positionRequest)) 
+              console.log(eval(playerNameRequest)) 
+              console.log(eval(playerTeamRequest)) 
+              console.log(eval(playerTeamFP)) 
+  
+              console.log(i)
+  
+              document.querySelector('.resultsTable').insertAdjacentHTML('beforeend', `
+                <div class="grid grid-cols-4 grid-rows-1 gap-4 border-2 text-center text-green  mx-4 px-4">
+                  <div class="QB1Position">${eval(positionRequest)}</div>
+                  <div class="QB1Name">${eval(playerNameRequest)}</div>
+                  <div class="QB1Team">${eval(playerTeamRequest)}</div>
+                  <div class="QB1FP">${eval(playerTeamFP)}</div>
+                </div>
+          `)
+          console.log(userData)
+            }
             }
 
           else {
             numberOfClicks = userData.NumberClicks
-            console.log(numberOfClicks)
             numberOfClicks = numberOfClicks + 1
-            console.log(numberOfClicks)
             x = numberOfClicks
+            console.log(x)
             
             await db.collection('footballUsers').doc(user.uid).update({
               ["PlayerName" + x]: resultName,
@@ -138,23 +168,24 @@ firebase.auth().onAuthStateChanged(async function(user) {
               ["PlayerFP" + x]: resultFP,   
               NumberClicks: numberOfClicks
           })
-          }
-
-          // Print the details of all the players in the Firestore collection
 
           for (let i=1; i <= (numberOfClicks); i++) {
-            console.log(numberOfClicks)
+
             let currentPlayerPosition = "PlayerPosition" + i
             let currentPlayerName = "PlayerName" + i
             let currentPlayerTeam = "PlayerTeam" + i
             let currentPlayerFP = "PlayerFP" + i
-            console.log(currentPlayerPosition)
 
             let positionRequest = `userData.${currentPlayerPosition}`
             let playerNameRequest = `userData.${currentPlayerName}`
             let playerTeamRequest = `userData.${currentPlayerTeam}`
             let playerTeamFP = `userData.${currentPlayerFP}`
             
+            console.log(positionRequest)
+            console.log(playerNameRequest)
+            console.log(playerTeamRequest)
+            console.log(playerTeamFP)
+                        
             console.log(eval(positionRequest)) 
             console.log(eval(playerNameRequest)) 
             console.log(eval(playerTeamRequest)) 
@@ -171,9 +202,9 @@ firebase.auth().onAuthStateChanged(async function(user) {
               </div>
         `)
           }
+          }
 
-          console.log(userData)
-          console.log(numberOfClicks) 
+          // Print the details of all the players in the Firestore collection
 
           
 
